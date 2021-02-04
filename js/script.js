@@ -1,5 +1,4 @@
 const editArea = document.querySelector('.edit-area');
-const buttons = document.getElementsByTagName('button');
 
 editArea.setAttribute('contenteditable', 'true')
 
@@ -102,12 +101,19 @@ document.addEventListener('cut', () => {
     setInlineStyles();
 });
 
-[...buttons].forEach(button => {
-    const className = button.getAttribute('class');
-    button.addEventListener('click', () => {
+document.addEventListener('click', (event) => {
+    let target = event.target;
+
+    if (target.parentNode.tagName === 'BUTTON') {
+        target = target.parentNode;
+    }
+
+    if (target.tagName === 'BUTTON') {
+        const className = target.getAttribute('class');
+
         if (getIsSelectionIntoEditArea()) {
             stylizeSelection(className);
             setInlineStyles();
         }
-    })
+    }
 })
